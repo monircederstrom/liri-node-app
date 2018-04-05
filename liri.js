@@ -16,11 +16,21 @@ switch(input){
 
     case "my-tweets":
     var params = {screen_name: 'momocederstrom'};
-    client.get('statuses/mentions_timeline', params, function(error, tweets, response){
+    client.get('statuses/user_timeline', params, function(error, tweets, response){
         if (!error) {
-            console.log(tweets)
+       //create loop to go through and pull just the tweets
+            for (var i = 0; i < 19; i++){
+                //var abc = (tweets);
+                var tweet = tweets[i].text;
+                var time = tweets[i].created_at;
+                console.log("Tweeted at: " + time);
+                console.log("Tweet:" + tweet);
+                console.log("");
+            }
+           
         };
         });
+        
     break;
 
     //case "spotify-this-song":
