@@ -15,7 +15,7 @@ var client =  twitter(keys.twitter);
 switch(input){
 
     case "my-tweets":
-    var params = {screen_name: 'momocederstrom'};
+    var params = {screen_name: 'momocederstrom', count: 20};
     client.get('statuses/user_timeline', params, function(error, tweets, response){
         if (!error) {
        //create loop to go through and pull just the tweets
