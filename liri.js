@@ -90,26 +90,57 @@ switch(input){
         if(err) {
             return console.log(err);
         }
-        console.log(data)
-        request("http://www.omdbapi.com/?t=" +"Mr+Nobody" + "&y=&plot=short&apikey=trilogy")
-        .then(response => {
-        let data = JSON.parse(response);
-        console.log("Movie Title: " + data.Title);
-        console.log("Year Released: " + data.Year);
-        console.log("IMBD Rating: " + data.imdbRating);
-        console.log(data.Ratings[1]);
-        console.log("Country produced in: " + data.Country);
-        console.log("Movie Language: " + data.Language);
-        console.log("Plot: " + data.Plot);
-        console.log("Actors: " + data.Actors);
-   
-    fs.appendFile("log.txt", "do-what-it-says", function(err){
-        if (err) {
-            console.log(err);
+        else {
+            var randomArray = data.split(',');
+            var input = randomArray[0];
+            var title = randomArray[1];
+            switch(input){
+                case "my-tweets":
+                var params = {screen_name: 'momocederstrom', count: 20};
+                client.get('statuses/user_timeline', params, function(error, tweets, response){
+                    if (!error) {
+                   //create loop to go through and pull just the tweets
+                        for (var i = 0; i < 19; i++){
+                            //var abc = (tweets);
+                            var tweet = tweets[i].text;
+                            var time = tweets[i].created_at;
+                            console.log("Tweeted at: " + time);
+                            console.log("Tweet:" + tweet);
+                            console.log("");
+                        }
+                        fs.appendFile("log.txt", "my-tweets, ", function(err){
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                        
+                    };
+                    });
+                break;
+
+                case "movie-this":
+            request("http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=trilogy")
+            .then(response => {
+            let data = JSON.parse(response);
+            console.log("Movie Title: " + data.Title);
+            console.log("Year Released: " + data.Year);
+            console.log("IMBD Rating: " + data.imdbRating);
+            console.log(data.Ratings[1]);
+            console.log("Country produced in: " + data.Country);
+            console.log("Movie Language: " + data.Language);
+            console.log("Plot: " + data.Plot);
+            console.log("Actors: " + data.Actors);
+            });
+            break;
         }
+   
+            fs.appendFile("log.txt", "do-what-it-says", function(err){
+                if (err) {
+                    console.log(err);
+                };
+                });
+        };
     });
-});
-});
     break;
         
 };
