@@ -12,6 +12,7 @@ var keys = require("./keys.js");
 var twitter = require('twitter');
 var client =  twitter(keys.twitter);
 
+
 switch(input){
 
     case "my-tweets":
@@ -27,7 +28,12 @@ switch(input){
                 console.log("Tweet:" + tweet);
                 console.log("");
             }
-           
+            fs.appendFile("log.txt", "my-tweets, ", function(err){
+                if (err) {
+                    console.log(err);
+                }
+            });
+            
         };
         });
         
@@ -72,10 +78,32 @@ switch(input){
             console.log("Actors: " + data.Actors);
             });
         };
+        fs.appendFile("log.txt", "movie-this, ", function(err){
+            if (err) {
+                console.log(err);
+            }
+        });
     break;
 
     case "do-what-it-says":
-    result = "WTF do I do here!?";
+    fs.readFile("random.txt", "utf8", function(err, data){
+        if(err) {
+            return console.log(err);
+        }
+        console.log(data)
+        request("http://www.omdbapi.com/?t=" +"Mr+Nobody" + "&y=&plot=short&apikey=trilogy")
+        .then(response => {
+        let data = JSON.parse(response);
+        console.log("Movie Title: " + data.Title);
+        console.log("Year Released: " + data.Year);
+        console.log("IMBD Rating: " + data.imdbRating);
+        console.log(data.Ratings[1]);
+        console.log("Country produced in: " + data.Country);
+        console.log("Movie Language: " + data.Language);
+        console.log("Plot: " + data.Plot);
+        console.log("Actors: " + data.Actors);
+     });
+    });
     break;
-
+        
 };
