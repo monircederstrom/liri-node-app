@@ -102,8 +102,14 @@ switch(input){
         console.log("Movie Language: " + data.Language);
         console.log("Plot: " + data.Plot);
         console.log("Actors: " + data.Actors);
-     });
+   
+    fs.appendFile("log.txt", "do-what-it-says", function(err){
+        if (err) {
+            console.log(err);
+        }
     });
+});
+});
     break;
         
 };
